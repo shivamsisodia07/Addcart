@@ -1,7 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
 import Table from "react-bootstrap/Table";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 const CardDetails = () => {
+  const [data, setdata] = useState([]);
+  console.log(data);
+  const { id } = useParams();
+
+  const getdata = useSelector((state) => state.cartreducer.carts);
+
+  const compare = () => {
+    let comparedata = getdata.filter((e) => {
+      return e.id == id;
+    });
+    setdata(comparedata);
+  };
+
+  useEffect(() => {
+    compare();
+  }, [id]);
   return (
     <div>
       {" "}
@@ -10,62 +29,67 @@ const CardDetails = () => {
 
         <section className='container mt-3'>
           <div className='itemsdetails '>
-            <div className='items_img'>
-              <img
-                src='https://b.zmtcdn.com/data/pictures/3/18514413/0a17b72e9fec52a3ca736f4c2ea3646f_o2_featured_v2.jpg'
-                alt=''
-              />
-            </div>
-            <div className='details mt-0.5'>
-              <Table>
-                <tr>
-                  <td>
-                    <p>
-                      <strong>Restaurant:</strong>Massala theory
-                    </p>{" "}
-                    <p>
-                      <strong>Price:</strong>₹350
-                    </p>{" "}
-                    <p>
-                      <strong>Dishes:</strong>North indian,biryani,Mughlai
-                    </p>{" "}
-                    <p>
-                      <strong>Total:</strong>₹350
-                    </p>
-                  </td>
-                  <td>
-                    <p>
-                      <strong>Rating:</strong>
-                      <span
-                        style={{
-                          background: "green",
-                          color: "#fff",
-                          padding: "2px 5px",
-                          borderRadius: "5px",
-                        }}>
-                        3.5★
-                      </span>
-                    </p>{" "}
-                    <p>
-                      <strong>Order review:</strong>
-                      <span>1175+ order placed from here recently</span>
-                    </p>{" "}
-                    <p>
-                      <strong>Remove</strong>
-                      <span>
-                        <i
-                          className='fas fa-trash '
-                          style={{
-                            color: "red",
-                            fontSize: 20,
-                            cursor: "pointer",
-                          }}></i>
-                      </span>
-                    </p>{" "}
-                  </td>
-                </tr>
-              </Table>
-            </div>
+            {data.map((e) => {
+              return (
+                <>
+                  <div className='items_img'>
+                    <img src={e.imgdata} alt='' />
+                  </div>
+                  <div className='details mt-0.5'>
+                    <Table>
+                      <tr>
+                        <td>
+                          <p>
+                            <strong>Restaurant:</strong>
+                            {e.rname}
+                          </p>{" "}
+                          <p>
+                            <strong>Price:</strong>₹{e.price}
+                          </p>{" "}
+                          <p>
+                            <strong>Dishes:</strong>
+                            {e.address}
+                          </p>{" "}
+                          <p>
+                            <strong>Total:</strong>₹350
+                          </p>
+                        </td>
+                        <td>
+                          <p>
+                            <strong>Rating:</strong>
+                            <span
+                              style={{
+                                background: "green",
+                                color: "#fff",
+                                padding: "2px 5px",
+                                borderRadius: "5px",
+                              }}>
+                              {e.rating}★
+                            </span>
+                          </p>{" "}
+                          <p>
+                            <strong>Order review:</strong>
+                            <span>{e.somedata}</span>
+                          </p>{" "}
+                          <p>
+                            <strong>Remove</strong>
+                            <span>
+                              <i
+                                className='fas fa-trash '
+                                style={{
+                                  color: "red",
+                                  fontSize: 20,
+                                  cursor: "pointer",
+                                }}></i>
+                            </span>
+                          </p>{" "}
+                        </td>
+                      </tr>
+                    </Table>
+                  </div>
+                </>
+              );
+            })}
           </div>
         </section>
       </div>

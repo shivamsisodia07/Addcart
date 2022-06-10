@@ -2,9 +2,18 @@ import React, { useState } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import CardData from "./CardData";
+import "./style.css";
+import { useDispatch } from "react-redux";
+import { ADD } from "../redux/actions/action";
 const Cards = () => {
   const [data, setData] = useState(CardData);
   //   console.log(data);
+
+  const dispatch = useDispatch();
+  const send = (e) => {
+    // console.log(e);
+    dispatch(ADD(e));
+  };
   return (
     <div className='container mt-3'>
       <h2 className='text-center'>Add to cart project</h2>
@@ -27,7 +36,10 @@ const Cards = () => {
                   <Card.Text>Price:{element.price}₹</Card.Text>
                   <div className='button_div d-flex justify-content-center '>
                     {" "}
-                    <Button variant='primary' className='col-lg-12'>
+                    <Button
+                      variant='primary'
+                      className='col-lg-12'
+                      onClick={() => send(element)}>
                       Add to cart
                     </Button>
                   </div>
@@ -36,17 +48,6 @@ const Cards = () => {
             </>
           );
         })}
-        {/* <Card style={{ width: "18rem" }}>
-          <Card.Img variant='top' src='holder.js/100px180' />
-          <Card.Body>
-            <Card.Title>Card Title</Card.Title>
-            <Card.Text>
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </Card.Text>
-            <Button variant='primary'>Go somewhere</Button>
-          </Card.Body>
-        </Card> */}
       </div>
     </div>
   );
