@@ -1,26 +1,47 @@
 import React, { useEffect, useState } from "react";
 import "./style.css";
 import Table from "react-bootstrap/Table";
-import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { DLT, ADD, REMOVE } from "../redux/actions/action";
 const CardDetails = () => {
   const [data, setdata] = useState([]);
   console.log(data);
+
   const { id } = useParams();
+  const history = useNavigate();
+  const dispatch = useDispatch();
 
   const getdata = useSelector((state) => state.cartreducer.carts);
-
+  console.log(getdata);
+  ///////////////
   const compare = () => {
     let comparedata = getdata.filter((e) => {
       return e.id == id;
     });
     setdata(comparedata);
   };
+  //add data
+  const send = (e) => {
+    // console.log(e);
+    dispatch(ADD(e));
+  };
+  ////////
+  const dlt = (id) => {
+    dispatch(DLT(id));
+    history("/");
+  };
+  //remove one
 
+  const remove = (item) => {
+    dispatch(REMOVE(item));
+  };
+  /////////
   useEffect(() => {
     compare();
   }, [id]);
+
+  ////////
   return (
     <div>
       {" "}
@@ -51,8 +72,32 @@ const CardDetails = () => {
                             {e.address}
                           </p>{" "}
                           <p>
-                            <strong>Total:</strong>₹350
+                            <strong>Total:</strong>₹ {e.price * e.qnty}
                           </p>
+                          <div
+                            className='mt-5 d-flex justify-content-between align-items-center'
+                            style={{
+                              width: 100,
+                              cursor: "pointer",
+                              background: "#ddd",
+                              color: "#111",
+                            }}>
+                            <span
+                              style={{ fontSize: 24 }}
+                              onClick={
+                                e.qnty <= 1 ? () => dlt(e.id) : () => remove(e)
+                              }>
+                              {" "}
+                              -{" "}
+                            </span>
+                            <span style={{ fontSize: 22 }}> {e.qnty} </span>
+                            <span
+                              style={{ fontSize: 24 }}
+                              onClick={() => send(e)}>
+                              {" "}
+                              +{" "}
+                            </span>
+                          </div>
                         </td>
                         <td>
                           <p>
@@ -76,6 +121,7 @@ const CardDetails = () => {
                             <span>
                               <i
                                 className='fas fa-trash '
+                                onClick={() => dlt(e.id)}
                                 style={{
                                   color: "red",
                                   fontSize: 20,

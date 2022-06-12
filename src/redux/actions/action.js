@@ -4,3 +4,19 @@ export const ADD = (item) => {
     payload: item,
   };
 };
+
+//remove item
+export const DLT = (id) => {
+  return {
+    type: "RMV_CART",
+    payload: id,
+  };
+};
+
+//remove individual item
+export const REMOVE = (item) => {
+  return {
+    type: "RMV_ONE",
+    payload: item,
+  };
+};
