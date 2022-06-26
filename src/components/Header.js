@@ -12,15 +12,16 @@ import { DLT } from "../redux/actions/action";
 
 const Header = () => {
   const [price, setPrice] = useState(0);
-  console.log(price);
-  ///////////
+  // console.log(price);
+
   const getdata = useSelector((state) => state.cartreducer);
-  console.log(getdata);
+  // console.log(getdata);
 
   const dispatch = useDispatch();
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -46,16 +47,16 @@ const Header = () => {
 
   //////
   return (
-    <div>
+    <>
       <Navbar bg='dark' variant='dark' style={{ height: "60px" }}>
         <Container>
           <NavLink to='/' className='text-decoration-none text-light mx-3'>
-            Add to Cart
+            Home
           </NavLink>
           <Nav className='me-auto'>
-            <NavLink to='/' className='text-decoration-none text-light'>
-              Home
-            </NavLink>
+            <NavLink
+              to='/'
+              className='text-decoration-none text-light'></NavLink>
           </Nav>
           <Badge
             badgeContent={getdata.carts.length}
@@ -164,7 +165,7 @@ const Header = () => {
           )}
         </Menu>
       </Navbar>
-    </div>
+    </>
   );
 };
 
